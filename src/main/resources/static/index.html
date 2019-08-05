@@ -1,0 +1,20 @@
+<html>
+<p id="message"></p>
+<img src="" id="liveViewImage" width="360" height="720">
+
+<script>
+    const messageView = document.querySelector('#message')
+    const imageView = document.querySelector('#liveViewImage')
+
+    const host = window.location.host
+    const url = 'ws://' + host + '/liveView'
+    const webSocket = new WebSocket(url)
+
+    webSocket.onmessage = function(e) {
+        console.log('updating image')
+        const response = JSON.parse(e.data)
+        imageView.src = 'data:image/png;base64,' + response.imageData
+        messageView.innerHTML = response.message
+    }
+</script>
+</html>
